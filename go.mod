@@ -8,4 +8,9 @@ require (
 	github.com/godbus/dbus/v5 v5.1.0
 )
 
-require golang.org/x/sys v0.8.0 // indirect
+require (
+	github.com/dvsekhvalnov/jose2go v1.5.0
+	github.com/mtibben/percent v0.2.1
+	golang.org/x/sys v0.11.0 // indirect
+	golang.org/x/term v0.11.0
+)

@@ -2,6 +2,10 @@ package keyring
 
 import "errors"
 
+const (
+	VAULT_SELECTION_AUTO = "AUTO"
+)
+
 // provider set in the init function by the relevant os file e.g.:
 // keyring_unix.go
 var provider Keyring = fallbackServiceProvider{}
@@ -28,16 +32,34 @@ type Keyring interface {
 }
 
 // Set password in keyring for user.
-func Set(service, user, password string) error {
-	return provider.Set(service, user, password)
+func Set(keyringSelection, service, user, password string) error {
+	if keyringSelection == VAULT_SELECTION_AUTO {
+		return provider.Set(service, user, password)
+	} else {
+		// encrypted file
+		provider := encryptedFileKeychain{}
+		return provider.Set(service, user, password)
+	}
 }
 
 // Get password from keyring given service and user name.
-func Get(service, user string) (string, error) {
-	return provider.Get(service, user)
+func Get(keyringSelection, service, user string) (string, error) {
+	if keyringSelection == VAULT_SELECTION_AUTO {
+		return provider.Get(service, user)
+	} else {
+		// encrypted file
+		provider := encryptedFileKeychain{}
+		return provider.Get(service, user)
+	}
 }
 
 // Delete secret from keyring.
-func Delete(service, user string) error {
-	return provider.Delete(service, user)
+func Delete(keyringSelection, service, user string) error {
+	if keyringSelection == VAULT_SELECTION_AUTO {
+		return provider.Delete(service, user)
+	} else {
+		// encrypted file keyring
+		provider := encryptedFileKeychain{}
+		return provider.Delete(service, user)
+	}
 }
