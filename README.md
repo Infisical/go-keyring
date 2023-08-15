@@ -54,15 +54,16 @@ func main() {
     service := "my-app"
     user := "anon"
     password := "secret"
+    keyringSelection := "auto" // you can also set to `file` to use a encrypted file to store your credentials
 
     // set password
-    err := keyring.Set(service, user, password)
+    err := keyring.Set(keyringSelection, service, user, password)
     if err != nil {
         log.Fatal(err)
     }
 
     // get password
-    secret, err := keyring.Get(service, user)
+    secret, err := keyring.Get(keyringSelection, service, user)
     if err != nil {
         log.Fatal(err)
     }
