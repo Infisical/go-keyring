@@ -31,9 +31,9 @@ type encryptedFileKeychain struct{}
 
 var tildePrefix = string([]rune{'~', filepath.Separator})
 
-const encryptedFileStoreDir = "~/infisical"
+const encryptedFileStoreDir = "~/infisical-keyring"
 
-const shellPassPhraseEnvName = "INFISICAL_FILE_VAULT_PASS"
+const shellPassPhraseEnvName = "INFISICAL_VAULT_FILE_PASSPHRASE"
 
 // Get password from macos keyring given service and user name.
 func (k encryptedFileKeychain) Get(service, key string) (string, error) {
@@ -44,7 +44,7 @@ func (k encryptedFileKeychain) Get(service, key string) (string, error) {
 
 	bytes, err := os.ReadFile(filename)
 	if os.IsNotExist(err) {
-		return "", errors.New("ErrKeyNotFound")
+		return "", ErrNotFound
 	} else if err != nil {
 		return "", err
 	}
