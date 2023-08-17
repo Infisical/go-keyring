@@ -1,9 +1,11 @@
 package keyring
 
-import "errors"
+import (
+	"errors"
+)
 
 const (
-	VAULT_SELECTION_AUTO = "AUTO"
+	VAULT_SELECTION_AUTO = "auto"
 )
 
 // provider set in the init function by the relevant os file e.g.:
