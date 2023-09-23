@@ -1,7 +1,7 @@
 package keyring
 
 import (
-	"fmt"
+	"log"
 	"os"
 
 	"golang.org/x/term"
@@ -11,12 +11,12 @@ import (
 type PromptFunc func(string) (string, error)
 
 func TerminalPrompt(prompt string) (string, error) {
-	fmt.Printf("%s: ", prompt)
+	log.SetFlags(0)
+	log.Printf("%s: ", prompt)
 	b, err := term.ReadPassword(int(os.Stdin.Fd()))
 	if err != nil {
 		return "", err
 	}
-	fmt.Println()
 	return string(b), nil
 }
 
